@@ -29,11 +29,6 @@ class Environment:
             else:
                 return (CELL_CAPACITY-weight)
 
-    # def nextPosition(self,action,weight):
-    #     #check if is legal action
-    #     #action is tuple (x,y)
-    #
-    #     return (x,y) # as position
 
 
 
@@ -74,7 +69,7 @@ class Agent:
                 print("action random " +str(action)+ " for Agent "+str(self.id))
                 # env.state[action] = self.b
             else:
-                # greedy action
+
                 # greedy action
                 for a in self.actions:
                     current_position = self.prevAction
@@ -86,24 +81,18 @@ class Agent:
                         max_next_reward = next_reward
 
 
-                # action = np.argmax(self.Q_values)
+
                 print("action from greedy ",action, "from Agent ",self.id, " with weight ",self.b, " and reward ",max_next_reward)
-                # self.env.state[action] = self.b
+
                 self.prevAction = action
             return action
 
 
     def takeAction(self,env,action,w):
-        # position = self.chooseAction()
-        # update State
+
         env.state[action] = env.state[action] + w
         return env.state
-    # def calculateQ(self, state, reward, q):
-    #
-    #         QvalOld = q[state][]
-    #         #vgazoume koino paragwnta to alpha sthn gnwsti eksiswsi kai prokuptei to parakatw
-    #         newQ = QvalOld + (self.alpha * (reward+ self.gamma*self.nashQtable[state]- QvalOld))
-    #     return newQ
+
 
     def reset(self,env):
         # self.states = []
@@ -266,9 +255,7 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
 
         for a in agent1.actions:
 
-                # print("env state ",self.env.state)
-                # print("action ",a)
-                # print("prev action ",self.prevAction)
+
             agent1.Q_values[agent1.prevAction][a] = reward1
             agent2.Q_values[agent2.prevAction][a] = reward2
             agent3.Q_values[agent3.prevAction][a] = reward3
@@ -292,8 +279,7 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
                 current_q_value = ag.Q_values[s][ag.prevAction]
                 reward = current_q_value +  ag.lr *(ag.gamma *  - current_q_value)
                 ag.Q_values[s][listOfnewActions[ag]] = round(reward, 3)
-            # player1.observe(reward=r1,opReward=r2,opAction=player2.prevAction)
-            # player2.observe(reward=r2,opReward=r1,opAction=player1.prevAction)
+
             print("======================For Agent ", ag.id, " ===========================")
             print(ag.Q_values)
             print("=======================================================================")
@@ -368,13 +354,7 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
                     sumOfQ = sumOfQ + ag.Q_values[act][actj]
             meanQ = sumOfQ/len(ag.actions)
             listOfQPerEpoch[ag].append(meanQ)
-    #     for ag in listAgents:
-    #         sumofRew = 0
-    #         for rew in listOfRewPerEpoch[ag]:
-    #             sumofRew = sumofRew + rew
-    #         print(len(listOfRewPerEpoch[ag]))
-    #         meanRew = sumofRew/len(listOfRewPerEpoch[ag])
-    #         meanlistOfRewPerEpoch[ag].append(meanRew)
+
     plt.plot(range(rounds),listEpsilon[agent1],label="Agent 1")
     plt.plot(range(rounds),listEpsilon[agent2],label="Agent 2")
     plt.plot(range(rounds),listEpsilon[agent3],label="Agent 3")
