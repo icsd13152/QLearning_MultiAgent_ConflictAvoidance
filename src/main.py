@@ -64,9 +64,9 @@ class Agent:
 
     def chooseAction(self):
             # choose action with most expected value
-            max_next_reward = -100 #set to a big min value in order to choose always an action and not return null.
+            max_next_reward = -2.5 #set to a big min value in order to choose always an action and not return null.
             action = ()
-
+            # while True:
             if np.random.uniform(0, 1) <= self.epsilon:
 
                 action = random.choice(self.actions)
@@ -139,6 +139,10 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
     listOfQPerEpoch = {}
     for ag in listAgents:
         listOfQPerEpoch[ag] = list()
+
+    listEpsilon= {}
+    for ag in listAgents:
+        listEpsilon[ag] = list()
     while i < rounds:
 
         print("=========================== Epoch ",i," ======================================")
@@ -210,20 +214,35 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
         reward15 = agent15.env.giveReward(action15,agent15.b)
 
         listOfRewards[agent1] = reward1
+
         listOfRewards[agent2] = reward2
+
         listOfRewards[agent3] = reward3
+
         listOfRewards[agent4] = reward4
+
         listOfRewards[agent5] = reward5
+
         listOfRewards[agent6] = reward6
+
         listOfRewards[agent7] = reward7
+
         listOfRewards[agent8] = reward8
+
         listOfRewards[agent9] = reward9
+
         listOfRewards[agent10] = reward10
+
         listOfRewards[agent11] = reward11
+
         listOfRewards[agent12] = reward12
+
         listOfRewards[agent13] = reward13
+
         listOfRewards[agent14] = reward14
+
         listOfRewards[agent15] = reward15
+
 
         agent1.states[action1] = agent1.b
         agent2.states[action2] = agent2.b
@@ -279,21 +298,67 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
             print(ag.Q_values)
             print("=======================================================================")
         i = i + 1
-        agent1.epsilon = agent1.epsilon - 0.01
-        agent2.epsilon = agent2.epsilon - 0.01
-        agent3.epsilon = agent3.epsilon - 0.01
-        agent4.epsilon = agent4.epsilon - 0.01
-        agent5.epsilon = agent5.epsilon - 0.01
-        agent6.epsilon = agent6.epsilon - 0.01
-        agent7.epsilon = agent7.epsilon - 0.01
-        agent8.epsilon = agent8.epsilon - 0.01
-        agent9.epsilon = agent9.epsilon - 0.01
-        agent10.epsilon = agent10.epsilon - 0.01
-        agent11.epsilon = agent11.epsilon - 0.01
-        agent12.epsilon = agent12.epsilon - 0.01
-        agent13.epsilon = agent13.epsilon - 0.01
-        agent14.epsilon = agent14.epsilon - 0.01
-        agent15.epsilon = agent15.epsilon - 0.01
+        if (agent1.epsilon > 0 and
+           agent2.epsilon > 0 and
+           agent3.epsilon > 0 and
+           agent4.epsilon > 0 and
+           agent5.epsilon > 0 and
+           agent6.epsilon > 0 and
+           agent7.epsilon > 0 and
+           agent8.epsilon > 0 and
+           agent9.epsilon > 0 and
+           agent10.epsilon > 0 and
+           agent11.epsilon > 0 and
+           agent12.epsilon > 0 and
+           agent13.epsilon > 0 and
+           agent14.epsilon > 0 and
+           agent15.epsilon > 0) and i%20 == 0:
+            listEpsilon[agent1].append(agent1.epsilon)
+            agent1.epsilon = agent1.epsilon - 0.01
+            listEpsilon[agent2].append(agent2.epsilon)
+            agent2.epsilon = agent2.epsilon - 0.01
+            listEpsilon[agent3].append(agent3.epsilon)
+            agent3.epsilon = agent3.epsilon - 0.01
+            listEpsilon[agent4].append(agent4.epsilon)
+            agent4.epsilon = agent4.epsilon - 0.01
+            listEpsilon[agent5].append(agent5.epsilon)
+            agent5.epsilon = agent5.epsilon - 0.01
+            listEpsilon[agent6].append(agent6.epsilon)
+            agent6.epsilon = agent6.epsilon - 0.01
+            listEpsilon[agent7].append(agent7.epsilon)
+            agent7.epsilon = agent7.epsilon - 0.01
+            listEpsilon[agent8].append(agent8.epsilon)
+            agent8.epsilon = agent8.epsilon - 0.01
+            listEpsilon[agent9].append(agent9.epsilon)
+            agent9.epsilon = agent9.epsilon - 0.01
+            listEpsilon[agent10].append(agent10.epsilon)
+            agent10.epsilon = agent10.epsilon - 0.01
+            listEpsilon[agent11].append(agent11.epsilon)
+            agent11.epsilon = agent11.epsilon - 0.01
+            listEpsilon[agent12].append(agent12.epsilon)
+            agent12.epsilon = agent12.epsilon - 0.01
+            listEpsilon[agent13].append(agent13.epsilon)
+            agent13.epsilon = agent13.epsilon - 0.01
+            listEpsilon[agent14].append(agent14.epsilon)
+            agent14.epsilon = agent14.epsilon - 0.01
+            listEpsilon[agent15].append(agent15.epsilon)
+            agent15.epsilon = agent15.epsilon - 0.01
+        else:
+            listEpsilon[agent1].append(agent1.epsilon)
+            listEpsilon[agent2].append(agent2.epsilon)
+            listEpsilon[agent3].append(agent3.epsilon)
+            listEpsilon[agent4].append(agent4.epsilon)
+            listEpsilon[agent5].append(agent5.epsilon)
+            listEpsilon[agent6].append(agent6.epsilon)
+            listEpsilon[agent7].append(agent7.epsilon)
+            listEpsilon[agent8].append(agent8.epsilon)
+            listEpsilon[agent9].append(agent9.epsilon)
+            listEpsilon[agent10].append(agent10.epsilon)
+            listEpsilon[agent11].append(agent11.epsilon)
+            listEpsilon[agent12].append(agent12.epsilon)
+            listEpsilon[agent13].append(agent13.epsilon)
+            listEpsilon[agent14].append(agent14.epsilon)
+            listEpsilon[agent15].append(agent15.epsilon)
 
         env = agent1.reset(env)
         for ag in listAgents:
@@ -303,6 +368,34 @@ def play(agent1,agent2,agent3,agent4,agent5,agent6,agent7,agent8,agent9,agent10,
                     sumOfQ = sumOfQ + ag.Q_values[act][actj]
             meanQ = sumOfQ/len(ag.actions)
             listOfQPerEpoch[ag].append(meanQ)
+    #     for ag in listAgents:
+    #         sumofRew = 0
+    #         for rew in listOfRewPerEpoch[ag]:
+    #             sumofRew = sumofRew + rew
+    #         print(len(listOfRewPerEpoch[ag]))
+    #         meanRew = sumofRew/len(listOfRewPerEpoch[ag])
+    #         meanlistOfRewPerEpoch[ag].append(meanRew)
+    plt.plot(range(rounds),listEpsilon[agent1],label="Agent 1")
+    plt.plot(range(rounds),listEpsilon[agent2],label="Agent 2")
+    plt.plot(range(rounds),listEpsilon[agent3],label="Agent 3")
+    plt.plot(range(rounds),listEpsilon[agent4],label="Agent 4")
+    plt.plot(range(rounds),listEpsilon[agent5],label="Agent 5")
+    plt.plot(range(rounds),listEpsilon[agent6],label="Agent 6")
+    plt.plot(range(rounds),listEpsilon[agent7],label="Agent 7")
+    plt.plot(range(rounds),listEpsilon[agent8],label="Agent 8")
+    plt.plot(range(rounds),listEpsilon[agent9],label="Agent 9")
+    plt.plot(range(rounds),listEpsilon[agent10],label="Agent 10")
+    plt.plot(range(rounds),listEpsilon[agent11],label="Agent 11")
+    plt.plot(range(rounds),listEpsilon[agent12],label="Agent 12")
+    plt.plot(range(rounds),listEpsilon[agent13],label="Agent 13")
+    plt.plot(range(rounds),listEpsilon[agent14],label="Agent 14")
+    plt.plot(range(rounds),listEpsilon[agent15],label="Agent 15")
+    # plt.plot(data[:,1],label="Player 2")
+    plt.xlabel("Iterations")
+    plt.ylabel("epsilon value")
+    plt.legend(loc="upper right")
+
+    plt.show()
 
     plt.plot(range(rounds),listOfValuesPerEpoch[agent1],label="Agent 1")
     plt.plot(range(rounds),listOfValuesPerEpoch[agent2],label="Agent 2")
@@ -366,4 +459,4 @@ if __name__ == "__main__":
     ag14 = Agent(14,0.2,1)
     ag15 = Agent(15,0.2,1)
 
-    play(ag1,ag2,ag3,ag4,ag5,ag6,ag7,ag8,ag9,ag10,ag11,ag12,ag13,ag14,ag15,env,200) # try also with 200
+    play(ag1,ag2,ag3,ag4,ag5,ag6,ag7,ag8,ag9,ag10,ag11,ag12,ag13,ag14,ag15,env,2500) # try also with 200
